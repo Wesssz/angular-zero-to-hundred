@@ -12,7 +12,7 @@ export class AppComponent {
   winner: string;
 
   getRandomIntInclusive() {
-    this.randomNumber = Math.floor(Math.random() * 3) + 1;
+    this.randomNumber = Math.floor(Math.random() * 100) + 1;
     return this.randomNumber;
   }
 
@@ -42,14 +42,14 @@ export class AppComponent {
       this.diffCheck(this.player1num, this.randomNumber) ===
       this.diffCheck(this.player2num, this.randomNumber)
     ) {
-      this.winner = "it's a draw!";
+      this.winner = 'draw!';
     } else if (
       this.diffCheck(this.player1num, this.randomNumber) <
       this.diffCheck(this.player2num, this.randomNumber)
     ) {
-      this.winner = 'Player One won!';
+      this.winner = 'Player One';
     } else {
-      this.winner = 'Player Two won!';
+      this.winner = 'Player Two';
     }
   }
 
