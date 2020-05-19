@@ -1,6 +1,7 @@
 .app-title {
   font-size: 1.8em;
   padding-bottom: 1em;
+  text-shadow: 2px 2px black;
 }
 
 .app-text-container {
