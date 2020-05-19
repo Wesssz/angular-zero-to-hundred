@@ -26,7 +26,7 @@
       </button>
     </div>
   </div>
-  <div class="d-flex flex-column app-results-container">
+  <div *ngIf="winner" class="d-flex flex-column app-results-container">
     <div class="app-results">
       <div>
         And the number is:
