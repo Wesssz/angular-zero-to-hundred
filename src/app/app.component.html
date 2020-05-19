@@ -4,13 +4,13 @@
 </div>
 
 <label for="Player 1">Player 1</label>
-<input type="text" id="Player 1" [(ngModel)]="player1num" />
+<input type="number" id="Player 1" [(ngModel)]="player1num" />
 <label for="Player 2">Player 2</label>
-<input type="text" id="Player 2" [(ngModel)]="player2num" />
+<input type="number" id="Player 2" [(ngModel)]="player2num" />
 <button (click)="submitHandler()" type="submit">
-  Get number
+  Get random number
 </button>
-<div>Player 1:s number is: {{ player1num }}</div>
-<div>Player 2:s number is: {{ player2num }}</div>
+<div>Player One's number is: {{ player1num }}</div>
+<div>Player Two's number is: {{ player2num }}</div>
 <div *ngIf="winner">Number is: {{ randomNumber }} and {{ winner }} won!</div>
 <button (click)="resetHandler()" *ngIf="winner">Play again</button>

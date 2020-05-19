@@ -21,6 +21,9 @@ export class AppComponent {
   }
 
   isValid(a, b) {
+    if (!Number.isInteger(a) || !Number.isInteger(b)) {
+      return false;
+    }
     if (a === b || a < 1 || a > 100 || b < 1 || b > 100) {
       return false;
     }
@@ -30,7 +33,9 @@ export class AppComponent {
   submitHandler() {
     const valCheck = this.isValid(this.player1num, this.player2num);
     if (!valCheck) {
-      return alert('Numbers cannot be equal, less than 1 or higher than 100!');
+      return alert(
+        'You must use numbers, which cannot be equal, less than 1 or higher than 100!'
+      );
     }
     this.getRandomIntInclusive();
     if (
