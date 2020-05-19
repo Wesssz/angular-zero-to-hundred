@@ -5,14 +5,14 @@
       <div class="app-text-title">How to play</div>
       <ul class="app-text">
         <li>
-          Both players choose a number between 1 and 100
+          Both players choose a number between 0 and 100
         </li>
         <li>
           Whoever is closest to the random number wins the grand prize
         </li>
       </ul>
     </div>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column app-input-container">
       <label for="Player 1">Player 1</label>
       <input type="number" id="Player 1" [(ngModel)]="player1num" />
       <label for="Player 2">Player 2</label>
@@ -26,9 +26,21 @@
       </button>
     </div>
   </div>
-  <div>Number is: {{ randomNumber }}</div>
-  <div>The winner is: {{ winner }}</div>
-  <button (click)="resetHandler()" class="btn btn-warning">
-    Play again
-  </button>
+  <div class="d-flex flex-column app-results-container">
+    <div class="app-results">
+      <div>
+        And the number is:
+        <span class="app-results-text">{{ randomNumber }}</span>
+      </div>
+      <div>
+        Which means: <span class="app-results-text">{{ winner }}</span>
+      </div>
+    </div>
+    <button
+      (click)="resetHandler()"
+      class="btn btn-warning app-button-reset text-white"
+    >
+      Play again
+    </button>
+  </div>
 </div>

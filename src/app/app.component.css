@@ -16,6 +16,28 @@
   font-size: 1.2em;
 }
 
+.app-input-container :nth-child(3) {
+  padding-top: 0.5em;
+}
+
 .app-button-submit {
   margin-top: 1em;
+}
+
+.app-results-container {
+  font-size: 1.5em;
+}
+
+.app-results {
+  padding: 0em 3em;
+}
+
+.app-results-text {
+  color: orange;
+  text-shadow: 2px 2px black;
+}
+
+.app-button-reset {
+  align-self: center;
+  margin-top: 0.5em;
 }
