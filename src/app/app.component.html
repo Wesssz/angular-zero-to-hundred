@@ -1,6 +1,6 @@
-<div class="d-flex flex-column align-items-center">
-  <div class="app-title">Zero to 100</div>
-  <div class="d-flex">
+<div class="container">
+  <div class="col mx-auto text-center app-title">Zero to 100</div>
+  <div class="container">
     <div class="d-flex flex-column justify-content-center app-text-container">
       <div class="app-text-title">How to play</div>
       <ul class="app-text">
@@ -20,6 +20,7 @@
         [(ngModel)]="player1num"
         min="0"
         max="100"
+        placeholder="Your number here"
       />
       <label for="Player 2">Player 2</label>
       <input
@@ -28,6 +29,7 @@
         [(ngModel)]="player2num"
         min="0"
         max="100"
+        placeholder="Your number here"
       />
       <button
         (click)="submitHandler()"
