@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white !important;
+  background-image: linear-gradient(
+      to right,
+      rgba(43, 43, 57, 0.5),
+      rgba(75, 82, 83, 0.2)
+    ),
+    url("assets/person-about-to-catch-four-dices-1111597.jpg");
+  background-size: cover;
+  background-position-y: 60%;
+}

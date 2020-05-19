@@ -1,16 +1,33 @@
-<div>
-  How to play: Both players choose a number between 1 and 100. Whoever is
-  closest wins the grand prize (Which is just honor, sorry!)
+<div class="d-flex flex-column align-items-center">
+  <div class="app-title">Zero to 100</div>
+  <div class="d-flex">
+    <div class="d-flex flex-column justify-content-center app-text-container">
+      <div class="app-text-title">How to play</div>
+      <ul class="app-text">
+        <li>
+          Both players choose a number between 1 and 100
+        </li>
+        <li>
+          Whoever is closest to the random number wins the grand prize
+        </li>
+      </ul>
+    </div>
+    <div class="d-flex flex-column">
+      <label for="Player 1">Player 1</label>
+      <input type="number" id="Player 1" [(ngModel)]="player1num" />
+      <label for="Player 2">Player 2</label>
+      <input type="number" id="Player 2" [(ngModel)]="player2num" />
+      <button
+        (click)="submitHandler()"
+        type="submit"
+        class="btn btn-primary app-button-submit"
+      >
+        Get random number
+      </button>
+    </div>
+  </div>
+  <div>Number is: {{ randomNumber }} and {{ winner }}</div>
+  <button (click)="resetHandler()" class="btn btn-warning">
+    Play again
+  </button>
 </div>
-
-<label for="Player 1">Player 1</label>
-<input type="number" id="Player 1" [(ngModel)]="player1num" />
-<label for="Player 2">Player 2</label>
-<input type="number" id="Player 2" [(ngModel)]="player2num" />
-<button (click)="submitHandler()" type="submit">
-  Get random number
-</button>
-<div>Player One's number is: {{ player1num }}</div>
-<div>Player Two's number is: {{ player2num }}</div>
-<div *ngIf="winner">Number is: {{ randomNumber }} and {{ winner }} won!</div>
-<button (click)="resetHandler()" *ngIf="winner">Play again</button>
