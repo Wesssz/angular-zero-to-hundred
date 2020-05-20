@@ -34,7 +34,7 @@ export class AppComponent {
     return Math.abs(a - b);
   }
 
-  playerNumChanged(event, variable) {
+  playerNumChanged(event, variable: string) {
     if (variable === 'player1Num') {
       this.player1Num = event;
     } else {
