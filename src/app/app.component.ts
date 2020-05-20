@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,11 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  @Output() valCheck: boolean = false;
+
   randomNumber: number;
-  player1num: string;
-  player2num: string;
+  player1Num: string;
+  player2Num: string;
   winner: string;
-  valCheck: boolean = false;
   showModal: boolean = false;
 
   getRandomIntInclusive() {
@@ -34,7 +35,7 @@ export class AppComponent {
   }
 
   valChanged() {
-    this.valCheck = this.isValid(this.player1num, this.player2num);
+    this.valCheck = this.isValid(this.player1Num, this.player2Num);
   }
 
   isValid(a, b) {
@@ -49,8 +50,8 @@ export class AppComponent {
 
   submitHandler() {
     this.getRandomIntInclusive();
-    const p1Diff = this.diffCheck(this.player1num, this.randomNumber);
-    const p2Diff = this.diffCheck(this.player2num, this.randomNumber);
+    const p1Diff = this.diffCheck(this.player1Num, this.randomNumber);
+    const p2Diff = this.diffCheck(this.player2Num, this.randomNumber);
     if (p1Diff === p2Diff) {
       this.winner = 'draw!';
     } else if (p1Diff < p2Diff) {
@@ -63,8 +64,8 @@ export class AppComponent {
   resetHandler() {
     this.winner = null;
     this.randomNumber = null;
-    this.player1num = null;
-    this.player2num = null;
+    this.player1Num = null;
+    this.player2Num = null;
     this.valCheck = false;
   }
 }
