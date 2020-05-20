@@ -10,6 +10,7 @@ export class AppComponent {
   player1num: string;
   player2num: string;
   winner: string;
+  valCheck: boolean = false;
 
   getRandomIntInclusive() {
     this.randomNumber = Math.floor(Math.random() * 101);
@@ -18,6 +19,10 @@ export class AppComponent {
 
   diffCheck(a, b) {
     return Math.abs(a - b);
+  }
+
+  valChanged() {
+    this.valCheck = this.isValid(this.player1num, this.player2num);
   }
 
   isValid(a, b) {
@@ -31,22 +36,12 @@ export class AppComponent {
   }
 
   submitHandler() {
-    const valCheck = this.isValid(this.player1num, this.player2num);
-    if (!valCheck) {
-      return alert(
-        'You must use numbers, which cannot be equal, less than 0 or higher than 100!'
-      );
-    }
     this.getRandomIntInclusive();
-    if (
-      this.diffCheck(this.player1num, this.randomNumber) ===
-      this.diffCheck(this.player2num, this.randomNumber)
-    ) {
+    const p1Diff = this.diffCheck(this.player1num, this.randomNumber);
+    const p2Diff = this.diffCheck(this.player2num, this.randomNumber);
+    if (p1Diff === p2Diff) {
       this.winner = 'draw!';
-    } else if (
-      this.diffCheck(this.player1num, this.randomNumber) <
-      this.diffCheck(this.player2num, this.randomNumber)
-    ) {
+    } else if (p1Diff < p2Diff) {
       this.winner = 'Player One won!';
     } else {
       this.winner = 'Player Two won!';
@@ -58,5 +53,6 @@ export class AppComponent {
     this.randomNumber = null;
     this.player1num = null;
     this.player2num = null;
+    this.valCheck = false;
   }
 }

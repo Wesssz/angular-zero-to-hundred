@@ -21,6 +21,7 @@
         min="0"
         max="100"
         placeholder="Your number here"
+        (input)="valChanged()"
       />
       <label for="Player 2">Player 2</label>
       <input
@@ -30,11 +31,13 @@
         min="0"
         max="100"
         placeholder="Your number here"
+        (input)="valChanged()"
       />
       <button
         (click)="submitHandler()"
         type="submit"
         class="btn btn-primary app-button-submit"
+        [disabled]="!valCheck"
       >
         Get random number
       </button>
