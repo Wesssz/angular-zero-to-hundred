@@ -34,13 +34,12 @@ export class AppComponent {
     return Math.abs(a - b);
   }
 
-  playerNumChanged(event, variable: string) {
+  playerNumChanged(pNum: string, variable: string) {
     if (variable === 'player1Num') {
-      this.player1Num = event;
+      this.player1Num = pNum;
     } else {
-      this.player2Num = event;
+      this.player2Num = pNum;
     }
-    console.log(this.player1Num, this.player2Num);
     this.valCheck = this.isValid(this.player1Num, this.player2Num);
   }
 
