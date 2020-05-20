@@ -13,12 +13,12 @@
   font-size: 1.2em;
 }
 
-.app-input-container :nth-child(3) {
-  padding-top: 0.5em;
-}
-
 .app-button-container {
   margin-top: 1em;
+}
+
+.second-input {
+  margin-top: 0.5em;
 }
 
 .app-button-submit {
