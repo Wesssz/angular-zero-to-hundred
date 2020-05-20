@@ -11,10 +11,22 @@ export class AppComponent {
   player2num: string;
   winner: string;
   valCheck: boolean = false;
+  showModal: boolean = false;
 
   getRandomIntInclusive() {
     this.randomNumber = Math.floor(Math.random() * 101);
     return this.randomNumber;
+  }
+
+  popModal() {
+    if (this.valCheck) {
+      return;
+    }
+    this.showModal = true;
+  }
+
+  hideModal() {
+    this.showModal = false;
   }
 
   diffCheck(a, b) {
