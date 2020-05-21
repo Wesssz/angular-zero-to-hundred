@@ -37,20 +37,13 @@
     <button class="btn btn-primary" (click)="hideModal()">Close</button>
   </div>
 </div>
-<div *ngIf="winner" class="d-flex flex-column app-results-container">
-  <div class="app-results">
-    <div>
-      And the number is:
-      <span class="app-results-text">{{ randomNumber }}</span>
-    </div>
-    <div>
-      Which means: <span class="app-results-text">{{ winner }}</span>
-    </div>
-  </div>
-  <button
-    (click)="resetHandler()"
-    class="btn btn-warning text-white app-button-reset"
-  >
+<div *ngIf="winner" class="app-results-container">
+  And the number is:
+  <span class="app-results-text">{{ randomNumber }}</span>
+  <br />
+  Which means: <span class="app-results-text">{{ winner }}</span>
+  <br />
+  <button (click)="resetHandler()" class="btn btn-warning app-button-reset">
     Play again
   </button>
 </div>

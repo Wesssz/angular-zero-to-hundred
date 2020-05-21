@@ -58,7 +58,7 @@ export class AppComponent {
     const p1Diff = this.diffCheck(this.player1Num, this.randomNumber);
     const p2Diff = this.diffCheck(this.player2Num, this.randomNumber);
     if (p1Diff === p2Diff) {
-      this.winner = 'draw!';
+      this.winner = 'Draw!';
     } else if (p1Diff < p2Diff) {
       this.winner = 'Player One won!';
     } else {

@@ -47,10 +47,8 @@
 
 .app-results-container {
   font-size: 1.5em;
-}
-
-.app-results {
-  padding: 0em 3em;
+  padding: 1em 3em;
+  text-align: center;
 }
 
 .app-results-text {
@@ -61,6 +59,8 @@
 .app-button-reset {
   align-self: center;
   margin-top: 0.5em;
+  font-weight: bold;
+  color: white;
 }
 
 @media (min-width: 641px) {
