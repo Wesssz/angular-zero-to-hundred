@@ -14,13 +14,13 @@
     </div>
     <div class="d-flex flex-column app-input-container">
       <app-player-input
-        [playerName]="'Player One'"
+        playerName="Player One"
         [playerNum]="player1Num"
         (playerNumChanged)="playerNumChanged($event, 'player1Num')"
       ></app-player-input>
       <app-player-input
         class="second-input"
-        [playerName]="'Player Two'"
+        playerName="Player Two"
         [playerNum]="player2Num"
         (playerNumChanged)="playerNumChanged($event, 'player2Num')"
       ></app-player-input>
