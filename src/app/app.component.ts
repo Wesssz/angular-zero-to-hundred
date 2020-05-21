@@ -12,22 +12,22 @@ export class AppComponent {
   player1Num: string;
   player2Num: string;
   winner: string;
-  showModal: boolean = false;
+  modalIsShown: boolean = false;
 
   getRandomIntInclusive() {
     this.randomNumber = Math.floor(Math.random() * 101);
     return this.randomNumber;
   }
 
-  popModal() {
+  showModal() {
     if (this.valCheck) {
       return;
     }
-    this.showModal = true;
+    this.modalIsShown = true;
   }
 
   hideModal() {
-    this.showModal = false;
+    this.modalIsShown = false;
   }
 
   diffCheck(a, b) {

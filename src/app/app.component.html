@@ -20,7 +20,7 @@
     [playerNum]="player2Num"
     (playerNumChanged)="playerNumChanged($event, 'player2Num')"
   ></app-player-input>
-  <div (click)="popModal()" class="app-button-container">
+  <div (click)="showModal()" class="app-button-container">
     <button
       (click)="submitHandler()"
       type="submit"
@@ -31,7 +31,7 @@
       Get random number
     </button>
   </div>
-  <div *ngIf="showModal" class="app-modal">
+  <div *ngIf="modalIsShown" class="app-modal">
     You both need to choose whole numbers between 0 and 100, that may not be
     equal.
     <button class="btn btn-primary" (click)="hideModal()">Close</button>
