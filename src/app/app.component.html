@@ -15,17 +15,33 @@
       If either of you guess correctly, you win immediately
     </li>
   </ul>
-  <app-player-input
-    playerName="Player One"
-    [playerNum]="player1Num"
-    (playerNumChanged)="playerNumChanged($event, 'player1Num')"
-  ></app-player-input>
-  <app-player-input
-    class="second-input"
-    playerName="Player Two"
-    [playerNum]="player2Num"
-    (playerNumChanged)="playerNumChanged($event, 'player2Num')"
-  ></app-player-input>
+  <form>
+    <ul style="list-style: none;">
+      <li>
+        <input type="radio" id="2 Players" />
+        <label for="2 Players">2 Players</label>
+      </li>
+      <li>
+        <input type="radio" id="3 Players" />
+        <label for="3 Players">3 Players</label>
+      </li>
+      <li>
+        <input type="radio" id="4 Players" />
+        <label for="4 Players">4 Players</label>
+      </li>
+    </ul>
+  </form>
+  <div *ngFor="let player of players">
+    <label [for]="player.player" class="app-label"> {{ player.player }} </label>
+    <input
+      class="d-flex player-input"
+      [id]="player.player"
+      type="number"
+      placeholder="Your number here"
+      min="0"
+      max="100"
+    />
+  </div>
   <div (click)="showModal()" class="app-button-container">
     <button
       (click)="submitHandler()"
@@ -33,7 +49,7 @@
       class="btn btn-primary app-button-submit"
       [disabled]="!valCheck"
       [ngStyle]="valCheck && { zIndex: 100 }"
-      [disabled] ="disablePlayAgain"
+      [disabled]="disablePlayAgain"
     >
       Get random number
     </button>
@@ -44,18 +60,23 @@
     <button class="btn btn-primary" (click)="hideModal()">Close</button>
   </div>
 </div>
+
 <div *ngIf="winner" class="app-results-container">
-  <p> Player One's number: {{ player1Num }} </p>
-  <p> Player Two's number:  {{ player2Num }} </p>
-  <p> You've guessed: {{ guessCount }} time </p>
+  <p>Player One's number: {{ player1Num }}</p>
+  <p>Player Two's number: {{ player2Num }}</p>
+  <p>You've guessed: {{ guessCount }} time</p>
   <span *ngIf="disablePlayAgain">
     And the number is:
-    <span class="app-results-text" >{{ randomNumber }}</span>
+    <span class="app-results-text">{{ randomNumber }}</span>
   </span>
   <br />
   <span class="app-results-text">{{ winner }}</span>
   <br />
-  <button (click)="resetHandler()" class="btn btn-warning app-button-reset" *ngIf="disablePlayAgain">
+  <button
+    (click)="resetHandler()"
+    class="btn btn-warning app-button-reset"
+    *ngIf="disablePlayAgain"
+  >
     Play again
   </button>
 </div>

@@ -8,6 +8,10 @@ import { Component, Output, Input } from '@angular/core';
 export class AppComponent {
   @Output() valCheck: boolean = false;
 
+  players: object[] = [
+    { player: 'Player 1', num: null },
+    { player: 'Player 2', num: null },
+  ];
   randomNumber: number;
   player1Num: string;
   player2Num: string;
@@ -19,6 +23,13 @@ export class AppComponent {
   getRandomIntInclusive() {
     this.randomNumber = Math.floor(Math.random() * 101);
     return this.randomNumber;
+  }
+
+  playerNumHandler(amount: string) {
+    for (let i = 0; i < +amount; i++) {
+      let temp = `Player ${i}`;
+      this.players.push({ player: temp, num: null });
+    }
   }
 
   showModal() {
@@ -60,7 +71,7 @@ export class AppComponent {
     if (!this.randomNumber) {
       this.getRandomIntInclusive();
     }
-    console.log(this.randomNumber)
+    console.log(this.randomNumber);
     this.checkClosest();
   }
 
@@ -68,21 +79,21 @@ export class AppComponent {
     if (this.guessCount < 3) {
       if (+this.player1Num === this.randomNumber) {
         this.disablePlayAgain = true;
-        return this.winner = "Player One guessed correctly!"
+        return (this.winner = 'Player One guessed correctly!');
       } else if (+this.player2Num === this.randomNumber) {
         this.disablePlayAgain = true;
-        return this.winner = "Player Two guesses correctly!"
-      } 
+        return (this.winner = 'Player Two guesses correctly!');
+      }
     }
-    let draw = "You are equally close!";
+    let draw = 'You are equally close!';
     let p1Win = 'Player One is closer!';
-    let p2Win = "Player Two is closer!";
+    let p2Win = 'Player Two is closer!';
     const p1Diff = this.diffCheck(this.player1Num, this.randomNumber);
     const p2Diff = this.diffCheck(this.player2Num, this.randomNumber);
-    if ( this.guessCount === 3) {
-      draw = "You have a draw!";
+    if (this.guessCount === 3) {
+      draw = 'You have a draw!';
       p1Win = 'Player One wins!';
-      p2Win = "Player Two wins!";
+      p2Win = 'Player Two wins!';
       this.disablePlayAgain = true;
     }
     if (p1Diff === p2Diff) {
@@ -92,7 +103,6 @@ export class AppComponent {
     } else {
       this.winner = p2Win;
     }
-
   }
 
   resetHandler() {
