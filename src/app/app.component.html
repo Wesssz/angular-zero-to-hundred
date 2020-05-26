@@ -6,7 +6,13 @@
       Both players choose a number between 0 and 100
     </li>
     <li>
-      Whoever is closest to the random number wins the grand prize
+      The game tells you which player is closest
+    </li>
+    <li>
+      After three guesses, whoever was closest wins
+    </li>
+    <li>
+      If either of you guess correctly, you win immediately
     </li>
   </ul>
   <app-player-input
@@ -27,6 +33,7 @@
       class="btn btn-primary app-button-submit"
       [disabled]="!valCheck"
       [ngStyle]="valCheck && { zIndex: 100 }"
+      [disabled] ="disablePlayAgain"
     >
       Get random number
     </button>
@@ -38,12 +45,17 @@
   </div>
 </div>
 <div *ngIf="winner" class="app-results-container">
-  And the number is:
-  <span class="app-results-text">{{ randomNumber }}</span>
+  <p> Player One's number: {{ player1Num }} </p>
+  <p> Player Two's number:  {{ player2Num }} </p>
+  <p> You've guessed: {{ guessCount }} time </p>
+  <span *ngIf="disablePlayAgain">
+    And the number is:
+    <span class="app-results-text" >{{ randomNumber }}</span>
+  </span>
   <br />
-  Which means: <span class="app-results-text">{{ winner }}</span>
+  <span class="app-results-text">{{ winner }}</span>
   <br />
-  <button (click)="resetHandler()" class="btn btn-warning app-button-reset">
+  <button (click)="resetHandler()" class="btn btn-warning app-button-reset" *ngIf="disablePlayAgain">
     Play again
   </button>
 </div>

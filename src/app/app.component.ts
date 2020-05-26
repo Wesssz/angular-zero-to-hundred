@@ -13,6 +13,8 @@ export class AppComponent {
   player2Num: string;
   winner: string;
   modalIsShown: boolean = false;
+  guessCount: number = 0;
+  disablePlayAgain: boolean = false;
 
   getRandomIntInclusive() {
     this.randomNumber = Math.floor(Math.random() * 101);
@@ -54,16 +56,43 @@ export class AppComponent {
   }
 
   submitHandler() {
-    this.getRandomIntInclusive();
+    this.guessCount++;
+    if (!this.randomNumber) {
+      this.getRandomIntInclusive();
+    }
+    console.log(this.randomNumber)
+    this.checkClosest();
+  }
+
+  checkClosest() {
+    if (this.guessCount < 3) {
+      if (+this.player1Num === this.randomNumber) {
+        this.disablePlayAgain = true;
+        return this.winner = "Player One guessed correctly!"
+      } else if (+this.player2Num === this.randomNumber) {
+        this.disablePlayAgain = true;
+        return this.winner = "Player Two guesses correctly!"
+      } 
+    }
+    let draw = "You are equally close!";
+    let p1Win = 'Player One is closer!';
+    let p2Win = "Player Two is closer!";
     const p1Diff = this.diffCheck(this.player1Num, this.randomNumber);
     const p2Diff = this.diffCheck(this.player2Num, this.randomNumber);
-    if (p1Diff === p2Diff) {
-      this.winner = 'Draw!';
-    } else if (p1Diff < p2Diff) {
-      this.winner = 'Player One won!';
-    } else {
-      this.winner = 'Player Two won!';
+    if ( this.guessCount === 3) {
+      draw = "You have a draw!";
+      p1Win = 'Player One wins!';
+      p2Win = "Player Two wins!";
+      this.disablePlayAgain = true;
     }
+    if (p1Diff === p2Diff) {
+      this.winner = draw;
+    } else if (p1Diff < p2Diff) {
+      this.winner = p1Win;
+    } else {
+      this.winner = p2Win;
+    }
+
   }
 
   resetHandler() {
@@ -72,5 +101,6 @@ export class AppComponent {
     this.player1Num = null;
     this.player2Num = null;
     this.valCheck = false;
+    this.disablePlayAgain = false;
   }
 }
