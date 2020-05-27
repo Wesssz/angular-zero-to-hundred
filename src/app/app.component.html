@@ -15,26 +15,33 @@
       If either of you guess correctly, you win immediately
     </li>
   </ul>
-  <form>
-    <ul style="list-style: none;">
-      <li>
-        <input type="radio" id="2 Players" />
-        <label for="2 Players">2 Players</label>
-      </li>
-      <li>
-        <input type="radio" id="3 Players" />
-        <label for="3 Players">3 Players</label>
-      </li>
-      <li>
-        <input type="radio" id="4 Players" />
-        <label for="4 Players">4 Players</label>
-      </li>
-    </ul>
+  <form
+    (ngSubmit)="playerNumHandler(playerForm)"
+    #playerForm="ngForm"
+    *ngIf="choiceMode"
+  >
+    <label for="Number of Players" class="player-choice-label"
+      >Choose number of players</label
+    >
+    <input
+      type="number"
+      name="players"
+      id="Number of Players"
+      class="player-choice-input"
+      min="2"
+      max="10"
+      autofocus
+      required
+      ngModel
+    />
+    <button class="btn btn-warning player-choice-button" type="submit">
+      Go
+    </button>
   </form>
   <div *ngFor="let player of players">
     <label [for]="player.player" class="app-label"> {{ player.player }} </label>
     <input
-      class="d-flex player-input"
+      class="d-flex player-number-input"
       [id]="player.player"
       type="number"
       placeholder="Your number here"
@@ -42,7 +49,7 @@
       max="100"
     />
   </div>
-  <div (click)="showModal()" class="app-button-container">
+  <div (click)="showModal()" class="app-button-container" *ngIf="!choiceMode">
     <button
       (click)="submitHandler()"
       type="submit"

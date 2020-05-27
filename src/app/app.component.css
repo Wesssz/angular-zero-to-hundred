@@ -63,6 +63,28 @@
   color: white;
 }
 
+.player-choice-label {
+  font-size: 1.3em;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+.player-choice-input {
+  width: 100%;
+  margin-bottom: 0.3em;
+}
+
+.player-choice-button {
+  width: 100%;
+  font-weight: bold;
+}
+
+.player-number-input {
+  width: 100%;
+  margin-bottom: 0.2em;
+}
+
 @media (min-width: 641px) {
   .app-modal {
     font-size: 1.5em;

@@ -1,4 +1,5 @@
 import { Component, Output, Input } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,10 @@ import { Component, Output, Input } from '@angular/core';
 export class AppComponent {
   @Output() valCheck: boolean = false;
 
-  players: object[] = [
-    { player: 'Player 1', num: null },
-    { player: 'Player 2', num: null },
-  ];
+  playerMax: number = 10;
+  playerMaxArr: number[];
+  playerNumbers: object[];
+  players: object[] = [];
   randomNumber: number;
   player1Num: string;
   player2Num: string;
@@ -19,17 +20,30 @@ export class AppComponent {
   modalIsShown: boolean = false;
   guessCount: number = 0;
   disablePlayAgain: boolean = false;
+  choiceMode: boolean = true;
+
+  constructor() {
+    this.playerMaxArr = Array(this.playerMax - 1)
+      .fill(0)
+      .map((item, index) => index + 2);
+  }
 
   getRandomIntInclusive() {
     this.randomNumber = Math.floor(Math.random() * 101);
     return this.randomNumber;
   }
 
-  playerNumHandler(amount: string) {
-    for (let i = 0; i < +amount; i++) {
-      let temp = `Player ${i}`;
+  playerNumHandler(form: NgForm) {
+    if (form.value.players < 0 || form.value.players > this.playerMax) return;
+    for (let i = 0; i < +form.value.players; i++) {
+      let temp = `Player ${i + 1}`;
       this.players.push({ player: temp, num: null });
     }
+    for (let i = 0; i < this.playerMax; i++) {
+      let temp = { player: `Player ${i + 1}`, number: null };
+      this.playerNumbers.push(temp);
+    }
+    this.choiceMode = false;
   }
 
   showModal() {
@@ -71,7 +85,6 @@ export class AppComponent {
     if (!this.randomNumber) {
       this.getRandomIntInclusive();
     }
-    console.log(this.randomNumber);
     this.checkClosest();
   }
 
@@ -112,5 +125,6 @@ export class AppComponent {
     this.player2Num = null;
     this.valCheck = false;
     this.disablePlayAgain = false;
+    this.choiceMode = true;
   }
 }
