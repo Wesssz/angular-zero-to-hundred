@@ -67,15 +67,6 @@ export class AppComponent {
         );
         return false;
       }
-      let dupeArray = [...playerNumbers];
-      dupeArray.splice(i, 1);
-      let dupeCheck = dupeArray.filter(
-        (item) => item.number === playerNumbers[i].number
-      );
-      if (dupeCheck.length > 0) {
-        console.log('Same value on multiple players');
-        return false;
-      }
     }
     return true;
   }
@@ -92,7 +83,7 @@ export class AppComponent {
       this.getRandomIntInclusive();
     }
     const check = this.checkClosest();
-    console.log(`Closest was: ${check.map((player) => player.player)}`);
+    console.log(check, this.randomNumber);
   }
 
   checkClosest() {
@@ -113,32 +104,21 @@ export class AppComponent {
         closest = [player];
       }
     }
+    let result: string;
     if (this.guessCount < 3) {
       const winners = this.players.filter((item) => item.intFromTarget === 0);
       if (winners.length !== 0) {
         this.disablePlayAgain = true;
-        return winners;
+        result = `${winners
+          .map((item) => item.player)
+          .join(' and ')} guessed correctly!`;
+      } else {
+        result = `${closest.map(
+          (item) => item.player
+        )} win(s)! The number was ${this.randomNumber}!`;
       }
-      return closest;
+      return result;
     }
-    /* let draw = 'You are equally close!';
-    let p1Win = 'Player One is closer!';
-    let p2Win = 'Player Two is closer!';
-    const p1Diff = this.diffCheck(this.player1Num, this.randomNumber);
-    const p2Diff = this.diffCheck(this.player2Num, this.randomNumber);
-    if (this.guessCount === 3) {
-      draw = 'You have a draw!';
-      p1Win = 'Player One wins!';
-      p2Win = 'Player Two wins!';
-      this.disablePlayAgain = true;
-    }
-    if (p1Diff === p2Diff) {
-      this.winner = draw;
-    } else if (p1Diff < p2Diff) {
-      this.winner = p1Win;
-    } else {
-      this.winner = p2Win;
-    } */
   }
 
   resetHandler() {
