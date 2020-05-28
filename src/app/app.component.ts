@@ -1,5 +1,6 @@
 import { Component, Output, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Player } from './player.model';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,10 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  @Output() valCheck: boolean = false;
-
+  valCheck: boolean = true;
   playerMax: number = 10;
   playerMaxArr: number[];
-  playerNumbers: object[];
-  players: object[] = [];
+  players: Player[] = [];
   randomNumber: number;
   player1Num: string;
   player2Num: string;
@@ -33,17 +32,14 @@ export class AppComponent {
     return this.randomNumber;
   }
 
-  playerNumHandler(form: NgForm) {
-    if (form.value.players < 0 || form.value.players > this.playerMax) return;
+  submitPlayersHandler(form: NgForm) {
+    if (form.value.players < 2 || form.value.players > this.playerMax) return;
     for (let i = 0; i < +form.value.players; i++) {
-      let temp = `Player ${i + 1}`;
-      this.players.push({ player: temp, num: null });
-    }
-    for (let i = 0; i < this.playerMax; i++) {
-      let temp = { player: `Player ${i + 1}`, number: null };
-      this.playerNumbers.push(temp);
+      this.players.push(new Player(`Player ${i + 1}`, null, null));
+      console.log(this.players);
     }
     this.choiceMode = false;
+    console.log(this.players);
   }
 
   showModal() {
@@ -61,44 +57,71 @@ export class AppComponent {
     return Math.abs(a - b);
   }
 
-  playerNumChanged(pNum: string, variable: string) {
-    if (variable === 'player1Num') {
-      this.player1Num = pNum;
-    } else {
-      this.player2Num = pNum;
-    }
-    this.valCheck = this.isValid(this.player1Num, this.player2Num);
-  }
-
-  isValid(a, b) {
-    if (!Number.isInteger(a) || !Number.isInteger(b)) {
-      return false;
-    }
-    if (a === b || a < 0 || a > 100 || b < 0 || b > 100) {
-      return false;
+  isValid(playerNumbers: Player[]) {
+    for (let i = 0; i < playerNumbers.length; i++) {
+      if (!Number.isInteger(playerNumbers[i].number)) {
+        console.log(
+          'Not an int - ',
+          `Player ${this.players[i].player} is `,
+          playerNumbers[i].number
+        );
+        return false;
+      }
+      let dupeArray = [...playerNumbers];
+      dupeArray.splice(i, 1);
+      let dupeCheck = dupeArray.filter(
+        (item) => item.number === playerNumbers[i].number
+      );
+      if (dupeCheck.length > 0) {
+        console.log('Same value on multiple players');
+        return false;
+      }
     }
     return true;
   }
 
-  submitHandler() {
+  submitNumbersHandler(form: NgForm) {
+    for (let i = 0; i < this.players.length; i++) {
+      this.players[i].number = form.value[`Player ${i + 1}`];
+    }
+    if (!this.isValid(this.players)) {
+      return;
+    }
     this.guessCount++;
     if (!this.randomNumber) {
       this.getRandomIntInclusive();
     }
-    this.checkClosest();
+    const check = this.checkClosest();
+    console.log(`Closest was: ${check.map((player) => player.player)}`);
   }
 
   checkClosest() {
-    if (this.guessCount < 3) {
-      if (+this.player1Num === this.randomNumber) {
-        this.disablePlayAgain = true;
-        return (this.winner = 'Player One guessed correctly!');
-      } else if (+this.player2Num === this.randomNumber) {
-        this.disablePlayAgain = true;
-        return (this.winner = 'Player Two guesses correctly!');
+    let closest: Player[] = [];
+
+    for (let i = 0; i < this.players.length; i++) {
+      this.players[i].intFromTarget = this.diffCheck(
+        this.players[i].number,
+        this.randomNumber
+      );
+      const player = this.players[i];
+      if (
+        closest.length === 0 ||
+        player.intFromTarget === closest[0].intFromTarget
+      ) {
+        closest.push(this.players[i]);
+      } else if (player.intFromTarget < closest[0].intFromTarget) {
+        closest = [player];
       }
     }
-    let draw = 'You are equally close!';
+    if (this.guessCount < 3) {
+      const winners = this.players.filter((item) => item.intFromTarget === 0);
+      if (winners.length !== 0) {
+        this.disablePlayAgain = true;
+        return winners;
+      }
+      return closest;
+    }
+    /* let draw = 'You are equally close!';
     let p1Win = 'Player One is closer!';
     let p2Win = 'Player Two is closer!';
     const p1Diff = this.diffCheck(this.player1Num, this.randomNumber);
@@ -115,7 +138,7 @@ export class AppComponent {
       this.winner = p1Win;
     } else {
       this.winner = p2Win;
-    }
+    } */
   }
 
   resetHandler() {
