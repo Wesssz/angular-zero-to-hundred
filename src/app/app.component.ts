@@ -8,18 +8,14 @@ import { Player } from './player.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  valCheck: boolean = true;
   playerMax: number = 10;
   playerMaxArr: number[];
   players: Player[] = [];
   randomNumber: number;
-  player1Num: string;
-  player2Num: string;
-  winner: string;
-  modalIsShown: boolean = false;
   guessCount: number = 0;
   disablePlayAgain: boolean = false;
   choiceMode: boolean = true;
+  closest: Player[] = [];
 
   constructor() {
     this.playerMaxArr = Array(this.playerMax - 1)
@@ -36,21 +32,8 @@ export class AppComponent {
     if (form.value.players < 2 || form.value.players > this.playerMax) return;
     for (let i = 0; i < +form.value.players; i++) {
       this.players.push(new Player(`Player ${i + 1}`, null, null));
-      console.log(this.players);
     }
     this.choiceMode = false;
-    console.log(this.players);
-  }
-
-  showModal() {
-    if (this.valCheck) {
-      return;
-    }
-    this.modalIsShown = true;
-  }
-
-  hideModal() {
-    this.modalIsShown = false;
   }
 
   diffCheck(a, b) {
@@ -60,11 +43,6 @@ export class AppComponent {
   isValid(playerNumbers: Player[]) {
     for (let i = 0; i < playerNumbers.length; i++) {
       if (!Number.isInteger(playerNumbers[i].number)) {
-        console.log(
-          'Not an int - ',
-          `Player ${this.players[i].player} is `,
-          playerNumbers[i].number
-        );
         return false;
       }
     }
@@ -83,25 +61,29 @@ export class AppComponent {
       this.getRandomIntInclusive();
     }
     const check = this.checkClosest();
-    console.log(check, this.randomNumber);
   }
 
   checkClosest() {
-    let closest: Player[] = [];
-
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].intFromTarget = this.diffCheck(
         this.players[i].number,
         this.randomNumber
       );
-      const player = this.players[i];
       if (
-        closest.length === 0 ||
-        player.intFromTarget === closest[0].intFromTarget
+        this.closest.length === 0 ||
+        this.players[i].intFromTarget === this.closest[0].intFromTarget
       ) {
-        closest.push(this.players[i]);
-      } else if (player.intFromTarget < closest[0].intFromTarget) {
-        closest = [player];
+        this.closest = this.closest.filter(
+          (item) => item.player !== this.players[i].player
+        );
+        this.closest.push(this.players[i]);
+      } else if (
+        this.players[i].intFromTarget < this.closest[0].intFromTarget
+      ) {
+        console.log(
+          `${this.players[i].player} is ${this.players[i].intFromTarget} away from ${this.randomNumber}`
+        );
+        this.closest = [this.players[i]];
       }
     }
     let result: string;
@@ -112,22 +94,25 @@ export class AppComponent {
         result = `${winners
           .map((item) => item.player)
           .join(' and ')} guessed correctly!`;
+        this.disablePlayAgain = true;
       } else {
-        result = `${closest.map(
-          (item) => item.player
-        )} win(s)! The number was ${this.randomNumber}!`;
+        result = `${this.closest
+          .map((item) => item.player)
+          .join(' and ')} was the closest!`;
       }
-      return result;
+    } else {
+      result = `${this.closest
+        .map((item) => item.player)
+        .join(' and ')} win(s)! The number was ${this.randomNumber}!`;
+      this.disablePlayAgain = true;
     }
+    return result;
   }
 
   resetHandler() {
-    this.winner = null;
     this.randomNumber = null;
-    this.player1Num = null;
-    this.player2Num = null;
-    this.valCheck = false;
     this.disablePlayAgain = false;
     this.choiceMode = true;
+    this.closest = [];
   }
 }

@@ -35,9 +35,19 @@
       required
       ngModel
     />
-    <button class="btn btn-warning player-choice-button" type="submit">
+    <button
+      class="btn btn-warning player-choice-button"
+      type="submit"
+      [disabled]="!playerForm.valid"
+    >
       Go
     </button>
+    <div
+      class="form-text"
+      *ngIf="playerForm.invalid && playerForm.touched && playerForm.dirty"
+    >
+      You need to choose between 2 and 10 players
+    </div>
   </form>
   <form
     (ngSubmit)="submitNumbersHandler(numbersForm)"
@@ -63,7 +73,7 @@
       type="submit"
       class="btn btn-primary app-button-submit"
       [disabled]="!numbersForm.valid || disablePlayAgain"
-      [ngStyle]="valCheck && { zIndex: 100 }"
+      [ngStyle]="!numbersForm.valid && { zIndex: 100 }"
       *ngIf="!choiceMode"
     >
       Get random number
@@ -71,16 +81,21 @@
   </form>
 </div>
 
-<div *ngIf="winner" class="app-results-container">
-  <p>Player One's number: {{ player1Num }}</p>
-  <p>Player Two's number: {{ player2Num }}</p>
-  <p>You've guessed: {{ guessCount }} time</p>
+<div *ngIf="randomNumber" class="app-results-container">
+  <p>You've guessed: {{ guessCount }} time(s)</p>
+  <p *ngFor="let player of players">
+    {{ player.player }}'s guess is: {{ player.number }}
+  </p>
+  <div *ngIf="!disablePlayAgain">
+    <p *ngFor="let player of closest">{{ player.player }} is the closest!</p>
+  </div>
   <span *ngIf="disablePlayAgain">
     And the number is:
     <span class="app-results-text">{{ randomNumber }}</span>
+    <span *ngFor="let player of closest">
+      , which means {{ player.player }} won!
+    </span>
   </span>
-  <br />
-  <span class="app-results-text">{{ winner }}</span>
   <br />
   <button
     (click)="resetHandler()"
