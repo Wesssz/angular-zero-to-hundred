@@ -1,5 +1,7 @@
 import { Component, Output, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
 import { Player } from './player.model';
 
 @Component({
@@ -16,11 +18,19 @@ export class AppComponent {
   disablePlayAgain: boolean = false;
   choiceMode: boolean = true;
   closest: Player[] = [];
+  playerNumChoice: number;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.playerMaxArr = Array(this.playerMax - 1)
       .fill(0)
       .map((item, index) => index + 2);
+  }
+
+  playerChoiceCheck(choice) {
+    if (!Number.isInteger(choice)) {
+      return false;
+    }
+    return choice <= this.playerMax && choice >= 2;
   }
 
   getRandomIntInclusive() {
@@ -34,6 +44,11 @@ export class AppComponent {
       this.players.push(new Player(`Player ${i + 1}`, null, null));
     }
     this.choiceMode = false;
+    /* this.http
+      .post('https://ng-zero-to-hero.firebaseio.com/players.json', this.players)
+      .subscribe((responseData) => {
+        console.log(responseData);
+      }); */
   }
 
   diffCheck(a, b) {
@@ -42,7 +57,11 @@ export class AppComponent {
 
   isValid(playerNumbers: Player[]) {
     for (let i = 0; i < playerNumbers.length; i++) {
-      if (!Number.isInteger(playerNumbers[i].number)) {
+      if (
+        !Number.isInteger(playerNumbers[i].number) ||
+        playerNumbers[i].number > 100 ||
+        playerNumbers[i].number < 0
+      ) {
         return false;
       }
     }

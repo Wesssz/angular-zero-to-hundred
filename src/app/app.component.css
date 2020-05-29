@@ -17,6 +17,10 @@
   margin-top: 1em;
 }
 
+.player-choice-help {
+  position: absolute;
+}
+
 .second-input {
   margin-top: 0.5em;
 }

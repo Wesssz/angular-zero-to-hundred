@@ -1,4 +1,4 @@
-<div class="container">
+<div class="cmntainer">
   <h1 class="text-center app-title">Zero to Hero</h1>
   <div class="app-text-title">How to play</div>
   <ul class="app-text">
@@ -30,21 +30,22 @@
       id="Number of Players"
       class="player-choice-input"
       min="2"
-      max="10"
+      [max]="playerMax"
       autofocus
       required
-      ngModel
+      [(ngModel)]="playerNumChoice"
+      #playerNumChoiceInput="ngModel"
     />
     <button
       class="btn btn-warning player-choice-button"
       type="submit"
-      [disabled]="!playerForm.valid"
+      [disabled]="!playerChoiceCheck(playerNumChoice)"
     >
       Go
     </button>
     <div
-      class="form-text"
-      *ngIf="playerForm.invalid && playerForm.touched && playerForm.dirty"
+      class="form-text player-choice-help"
+      *ngIf="!playerChoiceCheck(playerNumChoice) && playerNumChoiceInput.dirty"
     >
       You need to choose between 2 and 10 players
     </div>
