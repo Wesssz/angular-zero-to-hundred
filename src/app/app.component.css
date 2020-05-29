@@ -47,15 +47,18 @@
   color: white;
 }
 
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .player-choice-label {
   font-size: 1.3em;
   font-weight: bold;
-  width: 100%;
   text-align: center;
 }
 
 .player-choice-input {
-  width: 100%;
   margin-bottom: 0.3em;
 }
 

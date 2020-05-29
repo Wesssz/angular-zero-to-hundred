@@ -3,7 +3,8 @@
   <div class="app-text-title">How to play</div>
   <ul class="app-text">
     <li>
-      Both players choose a number between 0 and 100
+      Both players choose a number between 0 and {{ highestNumChoice }}
+      <span *ngIf="!highestNumChoice">(Please choose a number)</span>
     </li>
     <li>
       The game tells you which player is closest
@@ -21,21 +22,39 @@
     *ngIf="choiceMode"
     autocomplete="off"
   >
-    <label for="Number of Players" class="player-choice-label"
-      >Choose number of players</label
-    >
-    <input
-      type="number"
-      name="players"
-      id="Number of Players"
-      class="player-choice-input"
-      min="2"
-      [max]="playerMax"
-      autofocus
-      required
-      [(ngModel)]="playerNumChoice"
-      #playerNumChoiceInput="ngModel"
-    />
+    <div class="input-container">
+      <label for="Number of Players" class="player-choice-label"
+        >Choose number of players</label
+      >
+      <input
+        type="number"
+        name="players"
+        id="Number of Players"
+        class="player-choice-input"
+        min="2"
+        [max]="playerMax"
+        autofocus
+        required
+        [(ngModel)]="playerNumChoice"
+        #playerNumChoiceInput="ngModel"
+      />
+    </div>
+    <div class="input-container">
+      <label for="Highest number" class="player-choice-label"
+        >Choose the highest random number</label
+      >
+      <input
+        type="number"
+        name="highestNumber"
+        id="Highest number"
+        class="player-choice-input"
+        [min]="playerMax"
+        max="1000000"
+        required
+        [(ngModel)]="highestNumChoice"
+        #highestNumChoiceInput="ngModel"
+      />
+    </div>
     <button
       class="btn btn-warning player-choice-button"
       type="submit"
@@ -96,9 +115,13 @@
   <span *ngIf="disablePlayAgain">
     And the number is:
     <span class="app-results-text">{{ randomNumber }}</span>
-    <span *ngFor="let player of closest">
-      , which means {{ player.player }} won!
+    , which means
+    <span *ngFor="let player of closest; let ind = index">
+      {{ player.player }}
+      <span *ngIf="closest.length > 1 && ind < closest.length - 2">, </span>
+      <span *ngIf="ind === closest.length - 2"> and </span>
     </span>
+    won!
   </span>
   <br />
   <button

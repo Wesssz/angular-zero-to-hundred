@@ -19,6 +19,7 @@ export class AppComponent {
   choiceMode: boolean = true;
   closest: Player[] = [];
   playerNumChoice: number;
+  highestNumChoice: number;
 
   constructor(private http: HttpClient) {
     this.playerMaxArr = Array(this.playerMax - 1)
@@ -35,7 +36,11 @@ export class AppComponent {
 
   playerNumbersCheck(form: NgForm) {
     for (const [player, value] of Object.entries(form.value)) {
-      if (!Number.isInteger(+value) || +value > 100 || +value < 0) {
+      if (
+        !Number.isInteger(+value) ||
+        +value > this.highestNumChoice ||
+        +value < 0
+      ) {
         return false;
       }
     }
@@ -43,7 +48,7 @@ export class AppComponent {
   }
 
   getRandomIntInclusive() {
-    this.randomNumber = Math.floor(Math.random() * 101);
+    this.randomNumber = Math.floor(Math.random() * (this.highestNumChoice + 1));
     return this.randomNumber;
   }
 
@@ -68,7 +73,7 @@ export class AppComponent {
     for (let i = 0; i < playerNumbers.length; i++) {
       if (
         !Number.isInteger(playerNumbers[i].number) ||
-        playerNumbers[i].number > 100 ||
+        playerNumbers[i].number > this.highestNumChoice ||
         playerNumbers[i].number < 0
       ) {
         return false;
