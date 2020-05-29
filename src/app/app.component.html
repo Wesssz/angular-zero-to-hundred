@@ -73,7 +73,11 @@
     <button
       type="submit"
       class="btn btn-primary app-button-submit"
-      [disabled]="!numbersForm.valid || disablePlayAgain"
+      [disabled]="
+        !playerNumbersCheck(numbersForm) ||
+        !numbersForm.valid ||
+        disablePlayAgain
+      "
       *ngIf="!choiceMode"
     >
       Get random number

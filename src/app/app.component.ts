@@ -33,6 +33,15 @@ export class AppComponent {
     return choice <= this.playerMax && choice >= 2;
   }
 
+  playerNumbersCheck(form: NgForm) {
+    for (const [player, value] of Object.entries(form.value)) {
+      if (!Number.isInteger(+value) || +value > 100 || +value < 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   getRandomIntInclusive() {
     this.randomNumber = Math.floor(Math.random() * 101);
     return this.randomNumber;
