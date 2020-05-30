@@ -1,33 +1,27 @@
-import { Component, Output, Input } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import { Player } from './player.model';
+import { NgForm } from '@angular/forms';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-})
-export class AppComponent {
-  readonly PLAYER_MIN_NUMBER = 2;
-  readonly PLAYER_MAX_NUMBER = 10;
-  readonly RANDOM_MIN_NUMBER = 0;
-  readonly RANDOM_MAX_NUMBER = 1000000;
-  readonly GUESS_MIN_NUMBER = 1;
-  readonly GUESS_MAX_NUMBER = 10;
-  playerNumChoice: number;
-  highestNumChoice: number;
-  guessNumberChoice: number;
-  playerMaxArr: number[];
-  players: Player[] = [];
-  randomNumber: number;
-  guessCount: number = 0;
-  disablePlayAgain: boolean = false;
-  choiceMode: boolean = true;
-  closest: Player[] = [];
+@Injectable({ providedIn: 'root' })
+export class GameService {
+  private readonly PLAYER_MIN_NUMBER = 2;
+  private readonly PLAYER_MAX_NUMBER = 10;
+  private readonly RANDOM_MIN_NUMBER = 0;
+  private readonly RANDOM_MAX_NUMBER = 1000000;
+  private readonly GUESS_MIN_NUMBER = 1;
+  private readonly GUESS_MAX_NUMBER = 10;
+  private playerNumChoice: number;
+  private highestNumChoice: number;
+  private guessNumberChoice: number;
+  private playerMaxArr: number[];
+  private players: Player[] = [];
+  private randomNumber: number;
+  private guessCount: number = 0;
+  private disablePlayAgain: boolean = false;
+  private choiceMode: boolean = true;
+  private closest: Player[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.playerMaxArr = Array(this.PLAYER_MAX_NUMBER - 1)
       .fill(0)
       .map((item, index) => index + 2);
