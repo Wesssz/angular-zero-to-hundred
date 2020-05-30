@@ -3,14 +3,13 @@
   <div class="app-text-title">How to play</div>
   <ul class="app-text">
     <li>
-      Both players choose a number between 0 and {{ highestNumChoice }}
-      <span *ngIf="!highestNumChoice">(?)</span>
+      Both players choose a number between 0 and your set number
     </li>
     <li>
       The game tells you which player is closest
     </li>
     <li>
-      Whoever is closest after 3 guesses wins
+      Whoever is closest after your set guesses wins
     </li>
     <li>
       If a guess is correct before that, that player wins
@@ -56,19 +55,46 @@
           #highestNumChoiceInput="ngModel"
         />
       </div>
+      <div class="input-container">
+        <label for="guess-choice" class="player-choice-label"
+          >Choose the number of guesses</label
+        >
+        <input
+          type="number"
+          name="guesses"
+          id="guess-choice"
+          class="player-choice-input"
+          [min]="GUESS_MIN_NUMBER"
+          [max]="GUESS_MAX_NUMBER"
+          required
+          [(ngModel)]="guessNumberChoice"
+          #guessNumChoiceInput="ngModel"
+        />
+      </div>
       <button
         class="btn btn-warning player-choice-button"
         type="submit"
-        [disabled]="!playerChoiceCheck(playerNumChoice, highestNumChoice)"
+        [disabled]="
+          !playerChoiceCheck(
+            playerNumChoice,
+            highestNumChoice,
+            guessNumberChoice
+          )
+        "
       >
         Go
       </button>
       <div
         class="form-text player-choice-help"
         *ngIf="
-          !playerChoiceCheck(playerNumChoice, highestNumChoice) &&
+          !playerChoiceCheck(
+            playerNumChoice,
+            highestNumChoice,
+            guessNumberChoice
+          ) &&
           playerNumChoiceInput.dirty &&
-          highestNumChoiceInput.dirty
+          highestNumChoiceInput.dirty &&
+          guessNumChoiceInput.dirty
         "
       >
         <div>

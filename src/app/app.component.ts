@@ -10,8 +10,15 @@ import { Player } from './player.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  PLAYER_MAX_NUMBER: number = 10;
-  RANDOM_MAX_NUMBER: number = 1000000;
+  readonly PLAYER_MIN_NUMBER = 2;
+  readonly PLAYER_MAX_NUMBER = 10;
+  readonly RANDOM_MIN_NUMBER = 0;
+  readonly RANDOM_MAX_NUMBER = 1000000;
+  readonly GUESS_MIN_NUMBER = 1;
+  readonly GUESS_MAX_NUMBER = 10;
+  playerNumChoice: number;
+  highestNumChoice: number;
+  guessNumberChoice: number;
   playerMaxArr: number[];
   players: Player[] = [];
   randomNumber: number;
@@ -19,8 +26,6 @@ export class AppComponent {
   disablePlayAgain: boolean = false;
   choiceMode: boolean = true;
   closest: Player[] = [];
-  playerNumChoice: number;
-  highestNumChoice: number;
 
   constructor(private http: HttpClient) {
     this.playerMaxArr = Array(this.PLAYER_MAX_NUMBER - 1)
@@ -28,15 +33,21 @@ export class AppComponent {
       .map((item, index) => index + 2);
   }
 
-  playerChoiceCheck(numPlayers, maxNum) {
-    if (!Number.isInteger(numPlayers) || !Number.isInteger(maxNum)) {
+  playerChoiceCheck(numPlayers, maxNum, guessNum) {
+    if (
+      !Number.isInteger(numPlayers) ||
+      !Number.isInteger(maxNum) ||
+      !Number.isInteger(guessNum)
+    ) {
       return false;
     }
     return (
+      numPlayers >= this.PLAYER_MIN_NUMBER &&
       numPlayers <= this.PLAYER_MAX_NUMBER &&
-      numPlayers >= 2 &&
+      maxNum >= this.RANDOM_MIN_NUMBER &&
       maxNum <= this.RANDOM_MAX_NUMBER &&
-      maxNum >= 0
+      guessNum >= this.GUESS_MIN_NUMBER &&
+      guessNum <= this.GUESS_MAX_NUMBER
     );
   }
 
@@ -64,7 +75,8 @@ export class AppComponent {
     for (let i = 0; i < +form.value.players; i++) {
       this.players.push(new Player(`Player ${i + 1}`, null, null));
     }
-    this.choiceMode = false; /* this.http .post('https://ng-zero-to-hero.firebaseio.com/players.json', this.players) .subscribe((responseData) => { console.log(responseData); }); */
+    this.choiceMode = false;
+    /* this.http .post('https://ng-zero-to-hero.firebaseio.com/players.json', this.players) .subscribe((responseData) => { console.log(responseData); }); */
   }
 
   diffCheck(a, b) {
@@ -95,7 +107,7 @@ export class AppComponent {
     if (!this.randomNumber) {
       this.getRandomIntInclusive();
     }
-    const check = this.checkClosest();
+    this.checkClosest();
   }
 
   checkClosest() {
@@ -122,7 +134,7 @@ export class AppComponent {
       }
     }
     let result: string;
-    if (this.guessCount < 3) {
+    if (this.guessCount < this.guessNumberChoice) {
       const winners = this.players.filter((item) => item.intFromTarget === 0);
       if (winners.length !== 0) {
         this.disablePlayAgain = true;
@@ -145,7 +157,13 @@ export class AppComponent {
   }
 
   resetHandler() {
+    this.playerNumChoice = null;
+    this.highestNumChoice = null;
+    this.guessNumberChoice = null;
+    this.playerMaxArr = null;
+    this.players = [];
     this.randomNumber = null;
+    this.guessCount = 0;
     this.disablePlayAgain = false;
     this.choiceMode = true;
     this.closest = [];
