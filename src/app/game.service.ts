@@ -120,9 +120,6 @@ export class GameService {
       } else if (
         this.players[i].intFromTarget < this.closest[0].intFromTarget
       ) {
-        console.log(
-          `${this.players[i].player} is ${this.players[i].intFromTarget} away from ${this.randomNumber}`
-        );
         this.closest = [this.players[i]];
       }
     }
