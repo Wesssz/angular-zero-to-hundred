@@ -10,7 +10,8 @@ import { Player } from './player.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  playerMax: number = 10;
+  PLAYER_MAX_NUMBER: number = 10;
+  RANDOM_MAX_NUMBER: number = 1000000;
   playerMaxArr: number[];
   players: Player[] = [];
   randomNumber: number;
@@ -22,20 +23,25 @@ export class AppComponent {
   highestNumChoice: number;
 
   constructor(private http: HttpClient) {
-    this.playerMaxArr = Array(this.playerMax - 1)
+    this.playerMaxArr = Array(this.PLAYER_MAX_NUMBER - 1)
       .fill(0)
       .map((item, index) => index + 2);
   }
 
-  playerChoiceCheck(choice) {
-    if (!Number.isInteger(choice)) {
+  playerChoiceCheck(numPlayers, maxNum) {
+    if (!Number.isInteger(numPlayers) || !Number.isInteger(maxNum)) {
       return false;
     }
-    return choice <= this.playerMax && choice >= 2;
+    return (
+      numPlayers <= this.PLAYER_MAX_NUMBER &&
+      numPlayers >= 2 &&
+      maxNum <= this.RANDOM_MAX_NUMBER &&
+      maxNum >= 0
+    );
   }
 
   playerNumbersCheck(form: NgForm) {
-    for (const [player, value] of Object.entries(form.value)) {
+    for (const [, value] of Object.entries(form.value)) {
       if (
         !Number.isInteger(+value) ||
         +value > this.highestNumChoice ||
@@ -53,16 +59,12 @@ export class AppComponent {
   }
 
   submitPlayersHandler(form: NgForm) {
-    if (form.value.players < 2 || form.value.players > this.playerMax) return;
+    if (form.value.players < 2 || form.value.players > this.PLAYER_MAX_NUMBER)
+      return;
     for (let i = 0; i < +form.value.players; i++) {
       this.players.push(new Player(`Player ${i + 1}`, null, null));
     }
-    this.choiceMode = false;
-    /* this.http
-      .post('https://ng-zero-to-hero.firebaseio.com/players.json', this.players)
-      .subscribe((responseData) => {
-        console.log(responseData);
-      }); */
+    this.choiceMode = false; /* this.http .post('https://ng-zero-to-hero.firebaseio.com/players.json', this.players) .subscribe((responseData) => { console.log(responseData); }); */
   }
 
   diffCheck(a, b) {

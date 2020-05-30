@@ -1,74 +1,84 @@
-<div class="cmntainer">
+<div class="app-container">
   <h1 class="text-center app-title">Zero to Hero</h1>
   <div class="app-text-title">How to play</div>
   <ul class="app-text">
     <li>
       Both players choose a number between 0 and {{ highestNumChoice }}
-      <span *ngIf="!highestNumChoice">(Please choose a number)</span>
+      <span *ngIf="!highestNumChoice">(?)</span>
     </li>
     <li>
       The game tells you which player is closest
     </li>
     <li>
-      After three guesses, whoever was closest wins
+      Whoever is closest after 3 guesses wins
     </li>
     <li>
-      If either of you guess correctly, you win immediately
+      If a guess is correct before that, that player wins
     </li>
   </ul>
-  <form
-    (ngSubmit)="submitPlayersHandler(playerForm)"
-    #playerForm="ngForm"
-    *ngIf="choiceMode"
-    autocomplete="off"
-  >
-    <div class="input-container">
-      <label for="Number of Players" class="player-choice-label"
-        >Choose number of players</label
-      >
-      <input
-        type="number"
-        name="players"
-        id="Number of Players"
-        class="player-choice-input"
-        min="2"
-        [max]="playerMax"
-        autofocus
-        required
-        [(ngModel)]="playerNumChoice"
-        #playerNumChoiceInput="ngModel"
-      />
-    </div>
-    <div class="input-container">
-      <label for="Highest number" class="player-choice-label"
-        >Choose the highest random number</label
-      >
-      <input
-        type="number"
-        name="highestNumber"
-        id="Highest number"
-        class="player-choice-input"
-        [min]="playerMax"
-        max="1000000"
-        required
-        [(ngModel)]="highestNumChoice"
-        #highestNumChoiceInput="ngModel"
-      />
-    </div>
-    <button
-      class="btn btn-warning player-choice-button"
-      type="submit"
-      [disabled]="!playerChoiceCheck(playerNumChoice)"
+  <div class="choice-mode-container">
+    <form
+      (ngSubmit)="submitPlayersHandler(playerForm)"
+      #playerForm="ngForm"
+      *ngIf="choiceMode"
+      autocomplete="off"
     >
-      Go
-    </button>
-    <div
-      class="form-text player-choice-help"
-      *ngIf="!playerChoiceCheck(playerNumChoice) && playerNumChoiceInput.dirty"
-    >
-      You need to choose between 2 and 10 players
-    </div>
-  </form>
+      <div class="input-container">
+        <label for="Number of Players" class="player-choice-label"
+          >Choose number of players</label
+        >
+        <input
+          type="number"
+          name="players"
+          id="Number of Players"
+          class="player-choice-input"
+          min="2"
+          [max]="PLAYER_MAX_NUMBER"
+          autofocus
+          required
+          [(ngModel)]="playerNumChoice"
+          #playerNumChoiceInput="ngModel"
+        />
+      </div>
+      <div class="input-container">
+        <label for="Highest number" class="player-choice-label"
+          >Choose the highest random number</label
+        >
+        <input
+          type="number"
+          name="highestNumber"
+          id="Highest number"
+          class="player-choice-input"
+          [min]="PLAYER_MAX_NUMBER"
+          [max]="RANDOM_MAX_NUMBER"
+          required
+          [(ngModel)]="highestNumChoice"
+          #highestNumChoiceInput="ngModel"
+        />
+      </div>
+      <button
+        class="btn btn-warning player-choice-button"
+        type="submit"
+        [disabled]="!playerChoiceCheck(playerNumChoice, highestNumChoice)"
+      >
+        Go
+      </button>
+      <div
+        class="form-text player-choice-help"
+        *ngIf="
+          !playerChoiceCheck(playerNumChoice, highestNumChoice) &&
+          playerNumChoiceInput.dirty &&
+          highestNumChoiceInput.dirty
+        "
+      >
+        <div>
+          You need to choose between 2 and 10 players
+        </div>
+        <div>and a number between 0 and {{ RANDOM_MAX_NUMBER }}</div>
+      </div>
+    </form>
+  </div>
+
   <form
     (ngSubmit)="submitNumbersHandler(numbersForm)"
     #numbersForm="ngForm"
