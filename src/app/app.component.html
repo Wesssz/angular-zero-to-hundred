@@ -110,13 +110,13 @@
     #numbersForm="ngForm"
     autocomplete="off"
   >
-    <div *ngFor="let player of players; let ind = index">
-      <label for="Player {{ ind + 1 }}" class="app-label"> </label>
-      Player {{ ind + 1 }}
+    <div *ngFor="let player of players">
+      <label [for]="player.player" class="app-label"> </label>
+      {{ player.player }}
       <input
         class="d-flex player-number-input"
-        name="Player {{ ind + 1 }}"
-        id="Player {{ ind + 1 }}"
+        [name]="player.player"
+        [id]="player.player"
         type="number"
         placeholder="Your number here"
         min="0"
