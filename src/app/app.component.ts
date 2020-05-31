@@ -19,7 +19,6 @@ export class AppComponent {
   playerNumChoice: number;
   highestNumChoice: number;
   guessNumberChoice: number;
-  playerMaxArr: number[];
   players: Player[] = [];
   randomNumber: number;
   guessCount: number = 0;
@@ -27,11 +26,7 @@ export class AppComponent {
   choiceMode: boolean = true;
   closest: Player[] = [];
 
-  constructor(private http: HttpClient) {
-    this.playerMaxArr = Array(this.PLAYER_MAX_NUMBER - 1)
-      .fill(0)
-      .map((item, index) => index + 2);
-  }
+  constructor() {}
 
   playerChoiceCheck(numPlayers, maxNum, guessNum) {
     if (
@@ -156,7 +151,6 @@ export class AppComponent {
     this.playerNumChoice = null;
     this.highestNumChoice = null;
     this.guessNumberChoice = null;
-    this.playerMaxArr = null;
     this.players = [];
     this.randomNumber = null;
     this.guessCount = 0;
